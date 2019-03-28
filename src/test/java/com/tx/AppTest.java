@@ -28,11 +28,7 @@ public class AppTest {
 
     @Test
     public void testUserInsert() {
-        User user = new User();
-        user.setUserId(10L);
-        user.setAge(25);
-        user.setName("github");
-        userService.add(user);
+        userService.addSomeUsers();
     }
 
     /**

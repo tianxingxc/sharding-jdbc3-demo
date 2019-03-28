@@ -17,7 +17,23 @@ public class UserServiceImpl implements UserService {
   
     public int add(User user) {
         return userDao.add(user);
-    }  
+    }
 
-      
+    @Override
+    public int addSomeUsers() {
+        for(int i=0; i<10; i++) {
+            User user = new User();
+            user.setUserId(10L + i);
+            user.setAge(25 + i);
+            user.setName("github" + i);
+            add(user);
+            if(i == 5) {
+                throw new RuntimeException("异常回滚...");
+            }
+        }
+
+        return 0;
+    }
+
+
 } 
