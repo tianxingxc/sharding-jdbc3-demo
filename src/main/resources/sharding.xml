@@ -21,6 +21,8 @@
     <sharding:inline-strategy id="databaseShardingStrategy" sharding-column="user_id"
                               algorithm-expression="sharding_${user_id % 2}"/>
 
+    <sharding:standard-strategy id="studentShardingStrategy" sharding-column="age" precise-algorithm-ref="studentShardingStrategyAlgorithm" />
+
     <sharding:data-source id="shardingDataSource">
         <sharding:sharding-rule data-source-names="sharding_0, sharding_1">
             <sharding:table-rules>
@@ -30,8 +32,8 @@
 
                 <sharding:table-rule logic-table="t_user" database-strategy-ref="databaseShardingStrategy"
                                      generate-key-column-name="id"/>
-                <sharding:table-rule logic-table="t_student" database-strategy-ref="databaseShardingStrategy"
-                                     generate-key-column-name="id"/>
+                <sharding:table-rule logic-table="t_student" actual-data-nodes="sharding_$->{0..1}.t_student_$->{0..2}" database-strategy-ref="databaseShardingStrategy"
+                                     table-strategy-ref="studentShardingStrategy" generate-key-column-name="id"/>
             </sharding:table-rules>
         </sharding:sharding-rule>
     </sharding:data-source>
